@@ -2,36 +2,25 @@
 
 import { useEffect, useRef } from "react";
 
-const cities = [
-  { name: "New York", venues: 12, nextEvent: "Jan 15" },
-  { name: "Los Angeles", venues: 8, nextEvent: "Jan 18" },
-  { name: "Chicago", venues: 6, nextEvent: "Jan 22" },
-  { name: "San Francisco", venues: 7, nextEvent: "Jan 20" },
-  { name: "Boston", venues: 5, nextEvent: "Jan 25" },
-  { name: "Austin", venues: 4, nextEvent: "Feb 2" },
-];
-
 const upcomingEvents = [
   {
     id: 1,
     title: "The Neuroscience of Decision-Making",
     speaker: "Dr. Elena Vasquez",
-    role: "Cognitive Neuroscientist, MIT",
-    city: "New York",
-    venue: "The Velvet Hours",
+    role: "Cognitive Neuroscientist, UCL",
+    venue: "The Blue Posts, Soho",
     date: "Jan 15, 2026",
-    time: "8:00 PM",
+    time: "7:30 PM",
     spotsLeft: 12,
   },
   {
     id: 2,
     title: "Quantum Computing for the Curious",
     speaker: "Prof. James Chen",
-    role: "Quantum Physics, Stanford",
-    city: "San Francisco",
-    venue: "The Philosopher's Pour",
+    role: "Quantum Physics, Imperial College",
+    venue: "The Lamb, Bloomsbury",
     date: "Jan 18, 2026",
-    time: "7:30 PM",
+    time: "7:00 PM",
     spotsLeft: 8,
   },
   {
@@ -39,10 +28,9 @@ const upcomingEvents = [
     title: "The Art of Storytelling in the Digital Age",
     speaker: "Maya Thompson",
     role: "Author & Narrative Designer",
-    city: "Los Angeles",
-    venue: "Midnight Ink",
-    date: "Jan 20, 2026",
-    time: "8:30 PM",
+    venue: "The French House, Soho",
+    date: "Jan 22, 2026",
+    time: "8:00 PM",
     spotsLeft: 24,
   },
 ];
@@ -101,9 +89,6 @@ export default function Home() {
             <a href="#events" className="text-parchment/70 hover:text-amber-warm transition-colors">
               Events
             </a>
-            <a href="#cities" className="text-parchment/70 hover:text-amber-warm transition-colors">
-              Cities
-            </a>
             <a href="#faq" className="text-parchment/70 hover:text-amber-warm transition-colors">
               FAQ
             </a>
@@ -138,7 +123,7 @@ export default function Home() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-xl md:text-2xl text-parchment/60 leading-relaxed mb-12 opacity-0 animate-fade-up stagger-5">
-            40 minutes of revelation from world-class minds, delivered in the atmospheric glow of the city&apos;s finest bars and speakeasies.
+            40 minutes of revelation from world-class minds, delivered in the atmospheric glow of London&apos;s finest pubs and hidden bars.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-up stagger-6">
@@ -160,18 +145,6 @@ export default function Home() {
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-parchment/40">
           <span className="text-xs tracking-widest uppercase">Scroll</span>
           <div className="w-px h-12 bg-gradient-to-b from-parchment/40 to-transparent" />
-        </div>
-      </section>
-
-      {/* City Marquee */}
-      <section className="py-8 border-y border-amber-warm/10 overflow-hidden bg-slate-charcoal/50">
-        <div className="marquee">
-          {[...cities, ...cities].map((city, i) => (
-            <span key={i} className="flex items-center gap-3 text-parchment/40 whitespace-nowrap">
-              <span className="font-display text-2xl text-parchment/60">{city.name}</span>
-              <span className="w-2 h-2 bg-amber-warm rounded-full" />
-            </span>
-          ))}
         </div>
       </section>
 
@@ -201,9 +174,8 @@ export default function Home() {
               >
                 <div className="flex items-center gap-2 mb-6">
                   <span className="px-3 py-1 bg-amber-warm/10 text-amber-warm text-xs font-mono rounded-full">
-                    {event.city}
+                    {event.spotsLeft} spots left
                   </span>
-                  <span className="text-parchment/40 text-sm">{event.spotsLeft} spots left</span>
                 </div>
 
                 <h3 className="font-display text-2xl font-medium mb-4 group-hover:text-gradient transition-all duration-300">
@@ -217,7 +189,7 @@ export default function Home() {
 
                 <div className="pt-6 border-t border-parchment/10 flex items-center justify-between text-sm">
                   <div className="text-parchment/50">
-                    <p className="font-mono">{event.date}</p>
+                    <p className="font-mono">{event.date} · {event.time}</p>
                     <p>{event.venue}</p>
                   </div>
                   <div className="w-10 h-10 rounded-full border border-parchment/20 flex items-center justify-center group-hover:bg-amber-warm group-hover:border-amber-warm transition-colors">
@@ -234,115 +206,17 @@ export default function Home() {
 
       {/* Stats Band */}
       <section className="py-20 bg-gradient-to-r from-slate-charcoal via-slate-smoke to-slate-charcoal border-y border-amber-warm/10">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-3 gap-8">
           {[
-            { value: "500+", label: "Lectures Hosted" },
-            { value: "40K+", label: "Curious Minds" },
-            { value: "6", label: "Cities & Growing" },
-            { value: "200+", label: "Expert Speakers" },
+            { value: "50+", label: "Lectures Hosted" },
+            { value: "2K+", label: "Curious Minds" },
+            { value: "30+", label: "Expert Speakers" },
           ].map((stat, i) => (
             <div key={i} className={`animate-on-scroll stagger-${i + 1} text-center`}>
               <p className="font-display text-4xl md:text-5xl text-gradient font-medium mb-2">{stat.value}</p>
               <p className="text-parchment/50 text-sm tracking-wide">{stat.label}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Cities Section */}
-      <section id="cities" className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 animate-on-scroll">
-            <p className="font-mono text-amber-warm text-sm tracking-[0.2em] uppercase mb-3">Find Us</p>
-            <h2 className="font-display text-5xl md:text-6xl font-medium">
-              Our <span className="text-gradient">Cities</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cities.map((city, i) => (
-              <div
-                key={city.name}
-                className={`animate-on-scroll stagger-${i + 1} group relative p-8 rounded-xl border border-parchment/10 hover:border-amber-warm/30 transition-all duration-500 overflow-hidden`}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-warm/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative">
-                  <h3 className="font-display text-3xl font-medium mb-2 group-hover:text-amber-warm transition-colors">
-                    {city.name}
-                  </h3>
-                  <div className="flex items-center gap-4 text-parchment/50 text-sm">
-                    <span>{city.venues} venues</span>
-                    <span className="w-1 h-1 bg-parchment/30 rounded-full" />
-                    <span>Next: {city.nextEvent}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center animate-on-scroll">
-            <p className="text-parchment/50 mb-4">Don&apos;t see your city?</p>
-            <button className="px-6 py-3 border border-amber-warm/50 text-amber-warm rounded hover:bg-amber-warm/10 transition-colors">
-              Request Your City
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-32 px-6 bg-slate-charcoal/30">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20 animate-on-scroll">
-            <p className="font-mono text-amber-warm text-sm tracking-[0.2em] uppercase mb-3">The Experience</p>
-            <h2 className="font-display text-5xl md:text-6xl font-medium">
-              How It <span className="text-gradient">Works</span>
-            </h2>
-          </div>
-
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-amber-warm/50 via-amber-warm/20 to-transparent hidden md:block" />
-
-            {[
-              {
-                step: "01",
-                title: "Choose Your Lecture",
-                desc: "Browse upcoming talks across all cities. Each is curated for intellectual depth and speaker charisma.",
-              },
-              {
-                step: "02",
-                title: "Secure Your Spot",
-                desc: "Grab your ticket before they vanish. Intimate capacity means every seat is the best seat.",
-              },
-              {
-                step: "03",
-                title: "Arrive & Unwind",
-                desc: "Order a drink, find your perch. The venue sets the mood before the first word is spoken.",
-              },
-              {
-                step: "04",
-                title: "Be Illuminated",
-                desc: "40 minutes of captivating insight, followed by Q&A and conversations that linger long after last call.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className={`animate-on-scroll stagger-${i + 1} relative flex flex-col md:flex-row items-center gap-8 mb-16 last:mb-0 ${
-                  i % 2 === 1 ? "md:flex-row-reverse" : ""
-                }`}
-              >
-                <div className={`flex-1 ${i % 2 === 1 ? "md:text-right" : ""}`}>
-                  <span className="font-mono text-amber-warm/60 text-sm">{item.step}</span>
-                  <h3 className="font-display text-3xl font-medium mb-3">{item.title}</h3>
-                  <p className="text-parchment/60 leading-relaxed max-w-md">{item.desc}</p>
-                </div>
-                <div className="w-16 h-16 rounded-full border-2 border-amber-warm bg-ink flex items-center justify-center z-10">
-                  <span className="font-display text-2xl text-amber-warm">{item.step}</span>
-                </div>
-                <div className="flex-1" />
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -424,8 +298,8 @@ export default function Home() {
             <div>
               <h4 className="font-medium text-parchment mb-4">Quick Links</h4>
               <ul className="space-y-3 text-parchment/50">
-                <li><a href="#" className="hover:text-amber-warm transition-colors">Upcoming Events</a></li>
-                <li><a href="#" className="hover:text-amber-warm transition-colors">Cities</a></li>
+                <li><a href="#events" className="hover:text-amber-warm transition-colors">Upcoming Events</a></li>
+                <li><a href="#faq" className="hover:text-amber-warm transition-colors">FAQ</a></li>
                 <li><a href="#" className="hover:text-amber-warm transition-colors">Become a Speaker</a></li>
                 <li><a href="#" className="hover:text-amber-warm transition-colors">Host a Venue</a></li>
               </ul>
@@ -433,7 +307,7 @@ export default function Home() {
 
             <div>
               <h4 className="font-medium text-parchment mb-4">Stay Curious</h4>
-              <p className="text-parchment/50 text-sm mb-4">Get notified about new lectures in your city.</p>
+              <p className="text-parchment/50 text-sm mb-4">Get notified about new lectures in London.</p>
               <div className="flex">
                 <input
                   type="email"
