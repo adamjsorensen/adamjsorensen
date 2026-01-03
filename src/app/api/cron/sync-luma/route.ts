@@ -1,5 +1,24 @@
+/**
+ * LUMA SYNC CRON JOB - LOCAL STORAGE SCAFFOLD
+ * ============================================
+ *
+ * CURRENT: Writes to /data/events.json (local file)
+ * PRODUCTION: Switch to Supabase (see comments below)
+ *
+ * This endpoint syncs events from Luma API to local storage.
+ * In production, it would sync to Supabase instead.
+ *
+ * TO SWITCH TO SUPABASE:
+ * 1. Uncomment the Supabase import
+ * 2. Replace `localDb` with `createServerClient()`
+ * 3. Remove the Supabase config check bypass
+ */
+
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
+// SCAFFOLD: Using local storage
+import { localDb } from "@/lib/local-storage";
+// PRODUCTION: Uncomment this line
+// import { createServerClient } from "@/lib/supabase";
 import { getLumaClient } from "@/lib/luma";
 import { transformLumaEvent } from "@/types/event";
 
@@ -11,16 +30,16 @@ export const dynamic = "force-dynamic";
  * Runs every 5 minutes via Vercel Cron
  *
  * GET /api/cron/sync-luma
+ *
+ * SCAFFOLD: Currently writes to local JSON file
+ * PRODUCTION: Will write to Supabase
  */
 export async function GET(request: NextRequest) {
-  // Verify cron secret for security
+  // Verify cron secret for security (skip in development)
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
-  // Allow requests from Vercel Cron (they include the secret)
-  // Also allow manual triggers in development
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    // Check if it's a Vercel cron request
     const isVercelCron = request.headers.get("x-vercel-cron") === "true";
     if (!isVercelCron && process.env.NODE_ENV === "production") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -30,28 +49,28 @@ export async function GET(request: NextRequest) {
   try {
     // Check if Luma API key is configured
     if (!process.env.LUMA_API_KEY) {
-      return NextResponse.json(
-        {
-          error: "LUMA_API_KEY not configured",
-          message: "Add your Luma API key to environment variables"
-        },
-        { status: 503 }
-      );
+      // SCAFFOLD: Return info about local storage mode
+      return NextResponse.json({
+        mode: "scaffold",
+        message: "LUMA_API_KEY not configured - using local storage only",
+        hint: "Events are read from /data/events.json. Set LUMA_API_KEY to enable sync.",
+      });
     }
 
-    // Check if Supabase is configured
+    /* PRODUCTION: Uncomment this block to require Supabase
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
       return NextResponse.json(
-        {
-          error: "Supabase not configured",
-          message: "Add Supabase environment variables"
-        },
+        { error: "Supabase not configured" },
         { status: 503 }
       );
     }
+    */
 
     const luma = getLumaClient();
-    const supabase = createServerClient();
+
+    // SCAFFOLD: Using local storage
+    // PRODUCTION: const db = createServerClient();
+    const db = localDb;
 
     // Fetch all events from Luma
     console.log("[sync-luma] Fetching events from Luma...");
@@ -61,36 +80,37 @@ export async function GET(request: NextRequest) {
     if (lumaEvents.length === 0) {
       return NextResponse.json({
         success: true,
+        mode: "scaffold",
         message: "No events to sync",
         synced: 0,
       });
     }
 
-    // Transform to our schema
+    // Transform Luma events to our schema
     const eventsToUpsert = lumaEvents.map(transformLumaEvent);
 
-    // Upsert to Supabase (insert or update based on luma_id)
-    const { data, error } = await supabase
+    // Upsert to storage (local JSON or Supabase)
+    // The interface is the same, so this code works for both!
+    const { data, error } = await db
       .from("events")
-      .upsert(eventsToUpsert, {
-        onConflict: "luma_id",
-        ignoreDuplicates: false,
-      })
+      .upsert(eventsToUpsert, { onConflict: "luma_id" })
       .select();
 
     if (error) {
-      console.error("[sync-luma] Supabase error:", error);
+      console.error("[sync-luma] Storage error:", error);
       return NextResponse.json(
         { error: "Failed to sync events", details: error.message },
         { status: 500 }
       );
     }
 
-    console.log(`[sync-luma] Successfully synced ${data?.length || 0} events`);
+    console.log(`[sync-luma] Successfully synced ${eventsToUpsert.length} events`);
 
     return NextResponse.json({
       success: true,
-      synced: data?.length || 0,
+      mode: "scaffold", // PRODUCTION: Remove this line
+      storage: "local", // PRODUCTION: Change to "supabase"
+      synced: eventsToUpsert.length,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
@@ -98,7 +118,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Sync failed",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

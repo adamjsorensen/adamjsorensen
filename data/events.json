@@ -1,0 +1,72 @@
+{
+  "events": [
+    {
+      "id": "evt_001",
+      "luma_id": "evt-demo-neuroscience",
+      "luma_url": "https://lu.ma/demo-event-1",
+      "title": "The Neuroscience of Decision-Making",
+      "description": "Explore how your brain makes choices, from snap judgments to life-changing decisions.",
+      "speaker_name": "Dr. Elena Vasquez",
+      "speaker_role": "Cognitive Neuroscientist, UCL",
+      "speaker_image_url": null,
+      "venue_name": "The Blue Posts, Soho",
+      "venue_address": "22 Berwick Street, London W1F 0QA",
+      "starts_at": "2026-01-15T19:30:00Z",
+      "ends_at": "2026-01-15T21:00:00Z",
+      "total_spots": 40,
+      "spots_remaining": 12,
+      "is_sold_out": false,
+      "status": "upcoming",
+      "is_featured": true,
+      "synced_at": "2026-01-01T12:00:00Z",
+      "created_at": "2026-01-01T12:00:00Z"
+    },
+    {
+      "id": "evt_002",
+      "luma_id": "evt-demo-quantum",
+      "luma_url": "https://lu.ma/demo-event-2",
+      "title": "Quantum Computing for the Curious",
+      "description": "Demystifying qubits, superposition, and why quantum computers might change everything.",
+      "speaker_name": "Prof. James Chen",
+      "speaker_role": "Quantum Physics, Imperial College",
+      "speaker_image_url": null,
+      "venue_name": "The Lamb, Bloomsbury",
+      "venue_address": "94 Lamb's Conduit Street, London WC1N 3LZ",
+      "starts_at": "2026-01-18T19:00:00Z",
+      "ends_at": "2026-01-18T20:30:00Z",
+      "total_spots": 35,
+      "spots_remaining": 8,
+      "is_sold_out": false,
+      "status": "upcoming",
+      "is_featured": false,
+      "synced_at": "2026-01-01T12:00:00Z",
+      "created_at": "2026-01-01T12:00:00Z"
+    },
+    {
+      "id": "evt_003",
+      "luma_id": "evt-demo-storytelling",
+      "luma_url": "https://lu.ma/demo-event-3",
+      "title": "The Art of Storytelling in the Digital Age",
+      "description": "How narrative shapes our world, from viral tweets to immersive games.",
+      "speaker_name": "Maya Thompson",
+      "speaker_role": "Author & Narrative Designer",
+      "speaker_image_url": null,
+      "venue_name": "The French House, Soho",
+      "venue_address": "49 Dean Street, London W1D 5BG",
+      "starts_at": "2026-01-22T20:00:00Z",
+      "ends_at": "2026-01-22T21:30:00Z",
+      "total_spots": 30,
+      "spots_remaining": 24,
+      "is_sold_out": false,
+      "status": "upcoming",
+      "is_featured": false,
+      "synced_at": "2026-01-01T12:00:00Z",
+      "created_at": "2026-01-01T12:00:00Z"
+    }
+  ],
+  "_meta": {
+    "description": "Local event storage - replace with Supabase in production",
+    "last_sync": "2026-01-01T12:00:00Z",
+    "version": 1
+  }
+}
